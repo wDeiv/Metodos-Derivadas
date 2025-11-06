@@ -211,6 +211,52 @@
       color: #c51a4a;
     }
     
+    /* --- CSS para resultados compactos (copiado de la otra calc) --- */
+    #resultado p {
+      margin: 0;
+      padding: 0;
+    }
+    .resultado-item {
+      margin-bottom: 12px; /* Espacio entre ítems */
+    }
+    .resultado-item:last-child {
+      margin-bottom: 0;
+    }
+    .resultado-item .label {
+      font-weight: 600;
+      color: #1d4ed8; /* Título del ítem */
+      font-size: 15px;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .resultado-item .value {
+      font-size: 14px;
+      color: #334155;
+      word-wrap: break-word; /* Para listas largas */
+      white-space: pre-wrap;
+    }
+    /* Estilo para el resultado final destacado */
+    .resultado-final {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed #c7d2fe;
+    }
+    .resultado-final .label {
+       font-size: 16px;
+       font-weight: 700;
+    }
+    .resultado-final .value {
+       font-size: 16px;
+       font-weight: 600;
+       color: #1d2b64;
+    }
+    /* Para el título del error */
+    #resultado.error .label {
+      color: #c51a4a;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    /* --- FIN CSS --- */
 
   </style>
 </head>
@@ -276,10 +322,10 @@
     </div>
 
     <label for="punto-x">Valor de x:</label>
-    <input type="number" id="punto-x" placeholder="Ej: 0.5">
+    <input type="number" id="punto-x" placeholder="Ej: 0.5" autocomplete="off">
 
     <label for="paso-h">Valor de h1:</label>
-    <input type="number" id="paso-h" placeholder="Ej: 0.5">
+    <input type="number" id="paso-h" placeholder="Ej: 0.5" autocomplete="off">
 
     <button onclick="calcularRichardson()" class="button-principal">Calcular Extrapolación</button>
 
@@ -301,6 +347,10 @@
       
       if (isError) {
         resultadoDiv.classList.add("error");
+        // Asegurarse de que el HTML de error también use la nueva estructura
+        if (html.startsWith("<strong>")) {
+           resultadoDiv.innerHTML = `<div class="resultado-item"><span class="label">${html.replace(/<\/?strong>/g, '')}</span></div>`;
+        }
       } else {
         resultadoDiv.classList.remove("error");
       }
@@ -386,19 +436,24 @@
         
         const D_mejorado = (4 * D_h2 - D_h) / 3;
 
-        // --- 5. Mostrar Resultados ---
+        // --- 5. Mostrar Resultados (NUEVO FORMATO) ---
         // Usamos la nueva función truncAndFormat para mostrar 9 decimales sin redondear
         mostrarResultado(`
-          <strong>Resultado de Extrapolación:</strong>
-          <br>
-          ➤ <strong>Aprox. D(h=${h}):</strong><br>
-          ${truncAndFormat(D_h, 9)}
-          <br><br>
-          ➤ <strong>Aprox. D(h=${h_2}):</strong><br>
-          ${truncAndFormat(D_h2, 9)}
-          <br><br>
-          <strong>Derivada Extrapolada (O(h⁴)):</strong><br>
-          ${truncAndFormat(D_mejorado, 9)}
+          <div class="resultado-item">
+            <span class="label">Resultados de Extrapolación:</span>
+          </div>
+          <div class="resultado-item">
+            <span class="label">Aprox. D(h=${h}):</span>
+            <span class="value">${truncAndFormat(D_h, 9)}</span>
+          </div>
+          <div class="resultado-item">
+            <span class="label">Aprox. D(h=${h_2}):</span>
+            <span class="value">${truncAndFormat(D_h2, 9)}</span>
+          </div>
+          <div class="resultado-final">
+            <span class="label">Derivada Extrapolada (O(h⁴)) es:</span>
+            <span class="value">${truncAndFormat(D_mejorado, 9)}</span>
+          </div>
         `);
 
       } catch (error) {
