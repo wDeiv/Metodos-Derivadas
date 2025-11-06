@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Métodos Numéricos</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Métodos Numéricos</h1>
+    <p class="subtitle">Selecciona el método que deseas utilizar</p>
+
+    <div class="cards">
+  <div class="card" id="derivadas">
+    <img src="galaxy.png" alt="Espacio">
+    <h2>Derivadas de Datos<br>Irregularmente Espaciados</h2>
+    <p>(Método de Interpolación)</p>
+    <button onclick="location.href='Interpol/interpolacion.html'">Explorar</button>
+  </div>
+
+  <div class="card" id="richardson">
+    <img src="https://cdn-icons-png.flaticon.com/512/751/751463.png" alt="Lupa Richardson">
+    <h2>Extrapolación de Richardson</h2>
+    <p>(Método de Aceleración)</p>
+    <button onclick="location.href='Richard/richardson.html'">Explorar</button>
+
+  </div>
+</div>
+
+
+    <div id="content" class="content"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

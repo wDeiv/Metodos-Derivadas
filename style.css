@@ -1,0 +1,215 @@
+/* Estilo general para TODAS las páginas */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #e2ecff, #ffffff);
+  margin: 0;
+  padding: 20px;
+  color: #333;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+body.menu-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 0;
+  min-height: auto;
+}
+
+.container {
+  text-align: center;
+  width: 90%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: #1e3a8a;
+  margin-bottom: 5px;
+  font-size: 2.2em;
+}
+
+.subtitle {
+  color: #374151;
+  font-size: 1em;
+  margin-bottom: 30px;
+}
+
+/* --- Estilos del Menú (index.html) --- */
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  width: 300px;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+.card img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+  /* --- [CAMBIOS AQUÍ] --- */
+  display: block; /* La imagen se comporta como un bloque */
+  margin-left: auto; /* Margen automático a la izquierda */
+  margin-right: auto; /* Margen automático a la derecha (juntos centran el bloque) */
+}
+
+.card h2 {
+  color: #1e3a8a;
+  font-size: 1.3em;
+  margin-bottom: 5px;
+}
+
+.card p {
+  color: #6b7280;
+  font-size: 0.9em;
+  margin-bottom: 15px;
+}
+
+.card button {
+  width: 100%;
+}
+/* --- Fin de Estilos del Menú --- */
+
+
+/* --- Estilos para Páginas de Métodos --- */
+button {
+  background-color: #1e3a8a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #334ac0;
+}
+
+button.volver {
+  background-color: #6b7280;
+  margin-top: 20px;
+}
+button.volver:hover {
+  background-color: #4a5568;
+}
+
+.formulario {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+.formulario label {
+  font-weight: bold;
+  color: #1e3a8a;
+}
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+.content {
+  margin-top: 25px;
+}
+
+#resultado {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  font-size: 1.1em;
+  color: #333;
+  transition: all 0.3s ease-in-out;
+}
+
+#resultado:hover {
+  transform: scale(1.02);
+  background: rgba(255,255,255,0.15);
+}
+
+.paso {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(255,255,255,0.08);
+  border-left: 4px solid #6dcff6;
+  border-radius: 10px;
+  color: #333;
+  font-size: 1rem;
+  animation: fadeIn 0.5s ease-in-out;
+  text-align: left;
+}
+
+.paso h3 {
+  color: #6dcff6;
+  margin-bottom: 5px;
+}
+
+.paso ul {
+  margin-left: 20px;
+  list-style-type: square;
+}
+
+.paso.final {
+  background: rgba(109,207,246,0.15);
+  border-left-color: #00e676;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #1e3a8a;
+}
+
+.interpol-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 30px;
+}

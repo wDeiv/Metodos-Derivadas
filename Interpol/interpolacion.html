@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Derivadas</title>
+  <!-- Importamos la fuente Poppins que usaste en tu ejemplo -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Estilo base de tu ejemplo */
+    body {
+      background: linear-gradient(to bottom right, #f2f6ff, #e9efff);
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      color: #334155;
+    }
+
+    .container {
+      position: relative; /* Necesario para posicionar el botón de volver */
+      background: #ffffff;
+      padding: 35px 40px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 50, 0.1);
+      width: 90%;
+      max-width: 480px;
+      text-align: left; /* Cambiado a izquierda para las etiquetas */
+      transition: all 0.3s ease;
+    }
+
+    /* Botón de volver en la esquina superior izquierda */
+    .volver-top {
+      position: absolute;
+      top: 28px;
+      left: 30px;
+      font-size: 24px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      line-height: 1;
+    }
+
+    .volver-top:hover {
+      color: #1d2b64;
+    }
+
+    h1 {
+      color: #1d2b64;
+      font-size: 24px;
+      margin-bottom: 25px;
+      margin-top: 15px; /* Espacio para el botón de volver */
+      text-align: center;
+      font-weight: 700;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 15px;
+      color: #334155;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 15px;
+      color: #1e293b;
+      background-color: #f8fafc;
+      transition: all 0.3s ease;
+      box-sizing: border-box; /* Para que el padding no afecte el ancho */
+      font-family: "Poppins", sans-serif;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    textarea:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: #1d4ed8;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    /* Estilos para la tabla de puntos */
+    #tabla-puntos-container {
+      margin-bottom: 20px;
+    }
+
+    #tabla-puntos {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+      margin-bottom: 12px;
+      max-height: 200px; /* Altura máxima para la tabla */
+      overflow-y: auto; /* Scroll si hay muchos puntos */
+      padding-right: 5px; /* Espacio para el scrollbar */
+      padding-left: 2px;
+    }
+
+    .punto-fila {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .punto-fila input[type="number"] {
+      flex: 1; /* Los inputs crecen para llenar el espacio */
+      margin: 0; /* Sobrescribir márgenes de inputs generales */
+      width: 100%; /* El flex-grow se encargará */
+      padding: 10px 12px;
+      font-size: 14px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      color: #1e293b;
+      background-color: #f8fafc;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* Ocultar flechas de input number */
+    .punto-fila input[type="number"]::-webkit-inner-spin-button,
+    .punto-fila input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+
+    .punto-fila input[type="number"]:focus {
+      outline: none;
+      border-color: #1d4ed8;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+
+    .remover-punto {
+      flex-shrink: 0; /* No se encoge */
+      width: 38px;
+      height: 38px;
+      border: none;
+      background: #f1f5f9;
+      color: #64748b;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .remover-punto:hover {
+      background: #e11d48;
+      color: white;
+    }
+
+    .button-add {
+      width: 100%;
+      background: #e0e7ff;
+      color: #1d4ed8;
+      border: 1.5px dashed #a5b4fc;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .button-add:hover {
+      background: #c7d2fe;
+      border-color: #818cf8;
+    }
+
+    /* Contenedor para los dos botones */
+    .button-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .button-group button {
+      width: 100%; /* El flex-grow se encargará del resto */
+      flex: 1; /* Para que ambos botones crezcan igual */
+      background: #1d4ed8;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .button-group button:hover {
+      background: #2563eb;
+    }
+
+    /* Estilo para el botón secundario */
+    .button-group button.secondary {
+      background: #64748b;
+    }
+
+    .button-group button.secondary:hover {
+      background: #475569;
+    }
+
+    /* Div de resultados */
+    #resultado {
+      display: none; /* Oculto por defecto */
+      margin-top: 25px;
+      background: #f1f5ff;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      border-left: 4px solid #1d4ed8;
+    }
+
+    #resultado strong {
+      color: #1d4ed8;
+      font-size: 16px;
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    /* Estilo de error para el div de resultados */
+    #resultado.error {
+      background: #fff1f2;
+      border-color: #e11d48;
+      color: #9f1239;
+    }
+    
+    #resultado.error strong {
+      color: #c51a4a;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Botón de volver "←" en la esquina superior izquierda -->
+    <a href="#" onclick="history.back(); return false;" class="volver-top" title="Volver">←</a>
+
+    <h1>Calculadora de Derivadas</h1>
+
+    <label>Ingrese los puntos (x, y):</label>
+    <div id="tabla-puntos-container">
+      <div id="tabla-puntos">
+        <!-- Las filas de puntos se agregarán aquí dinámicamente -->
+      </div>
+      <button id="agregar-punto" class="button-add">Añadir Punto (+)</button>
+    </div>
+
+    <label for="nodo">Nodo (x) donde calcular:</label>
+    <input type="text" id="nodo" placeholder="Ej: 2 (debe ser un 'x' de sus datos)">
+
+    <div class="button-group">
+      <button onclick="calcularPrimeraDerivada()">Primera Derivada</button>
+      <button onclick="calcularSegundaDerivada()" class="secondary">Segunda Derivada</button>
+    </div>
+
+    <!-- El resultado se mostrará aquí -->
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    /**
+     * Muestra un mensaje en el div de resultados.
+     * @param {string} html - El contenido HTML a mostrar.
+     * @param {boolean} [isError=false] - Si es un mensaje de error.
+     */
+    function mostrarResultado(html, isError = false) {
+      const resultadoDiv = document.getElementById("resultado");
+      resultadoDiv.innerHTML = html;
+      resultadoDiv.style.display = 'block';
+      
+      if (isError) {
+        resultadoDiv.classList.add("error");
+      } else {
+        resultadoDiv.classList.remove("error");
+      }
+    }
+
+    /**
+     * Parsea y valida los puntos de la tabla.
+     * @returns {Array|null} - Un array de puntos [x, y] ordenados por x, o null si hay error.
+     */
+    function getPuntosFromTabla() {
+      const filas = document.querySelectorAll("#tabla-puntos .punto-fila");
+      let puntos = [];
+      
+      if (filas.length < 3) {
+        mostrarResultado("<strong>Error:</strong> Se necesitan al menos 3 puntos para los cálculos.", true);
+        return null;
+      }
+
+      for (let i = 0; i < filas.length; i++) {
+          const fila = filas[i];
+          const xInput = fila.querySelector(".punto-x");
+          const yInput = fila.querySelector(".punto-y");
+
+          const xVal = xInput.value;
+          const yVal = yInput.value;
+
+          if (xVal === '' || yVal === '') {
+              mostrarResultado(`<strong>Error:</strong> Fila ${i + 1} incompleta. Por favor, rellene ambos campos x e y.`, true);
+              return null;
+          }
+
+          const x = parseFloat(xVal);
+          const y = parseFloat(yVal);
+
+          if (isNaN(x) || isNaN(y)) {
+              mostrarResultado(`<strong>Error:</strong> Fila ${i + 1} contiene valores no numéricos.`, true);
+              return null;
+          }
+          
+          puntos.push([x, y]);
+      }
+
+      // Ordenar por x
+      puntos.sort((a, b) => a[0] - b[0]);
+      
+      // Verificar valores 'x' duplicados
+      for (let i = 0; i < puntos.length - 1; i++) {
+        if (puntos[i][0] === puntos[i + 1][0]) {
+          mostrarResultado(`<strong>Error:</strong> Valor 'x' duplicado encontrado: ${puntos[i][0]}`, true);
+          return null;
+        }
+      }
+      
+      return puntos;
+    }
+
+    /**
+     * Valida el nodo y lo retorna junto con su índice.
+     * @param {Array} puntos - El array de puntos.
+     * @returns {object|null} - Un objeto {xNodo, idx} o null si hay error.
+     */
+    function getNodo(puntos) {
+      const nodoTexto = document.getElementById("nodo").value.trim();
+      if (!nodoTexto) {
+        mostrarResultado("<strong>Error:</strong> Por favor, ingrese el nodo donde desea calcular.", true);
+        return null;
+      }
+      
+      const xNodo = parseFloat(nodoTexto);
+      if (isNaN(xNodo)) {
+        mostrarResultado("<strong>Error:</strong> El nodo debe ser un valor numérico.", true);
+        return null;
+      }
+      
+      const idx = puntos.findIndex(p => p[0] === xNodo);
+
+      if (idx === -1) {
+        mostrarResultado(`<strong>Error:</strong> El nodo x=${xNodo} no se encuentra en la lista de puntos ingresados.`, true);
+        return null;
+      }
+      
+      return { xNodo, idx };
+    }
+
+    /**
+     * Calcula la primera derivada en el nodo seleccionado.
+     */
+    function calcularPrimeraDerivada() {
+      const puntos = getPuntosFromTabla(); // Cambiado
+      if (!puntos) return;
+
+      const nodoInfo = getNodo(puntos);
+      if (!nodoInfo) return;
+      
+      const { xNodo, idx } = nodoInfo;
+      const n = puntos.length;
+      
+      // --- INICIO DE LÓGICA INTEGRADA ---
+
+      // 1. Derivadas por intervalo
+      let derivadasIntervalo = [];
+      for (let i = 0; i < n - 1; i++) {
+        const dx = puntos[i + 1][0] - puntos[i][0];
+        const dy = puntos[i + 1][1] - puntos[i][1];
+        derivadasIntervalo.push(dy / dx);
+      }
+
+      // 2. Derivadas instantáneas en cada nodo
+      let derivadasNodo = [];
+      for (let i = 0; i < n; i++) {
+        let derivada;
+        if (i === 0) {
+          // Fórmula de diferencia hacia adelante (2 puntos)
+          const [x0, y0] = puntos[0];
+          const [x1, y1] = puntos[1];
+          derivada = (y1 - y0) / (x1 - x0);
+        } else if (i === n - 1) {
+          // Fórmula de diferencia hacia atrás (2 puntos)
+          const [x_last, y_last] = puntos[n - 1];
+          const [x_prev, y_prev] = puntos[n - 2];
+          derivada = (y_last - y_prev) / (x_last - x_prev);
+        } else {
+          // Fórmula de diferencia central (para datos no espaciados uniformemente)
+          const [x_im1, y_im1] = puntos[i - 1];
+          const [x_ip1, y_ip1] = puntos[i + 1];
+          derivada = (y_ip1 - y_im1) / (x_ip1 - x_im1);
+        }
+        derivadasNodo.push(derivada);
+      }
+
+      // 3. Promedio
+      const promedio = derivadasIntervalo.reduce((a, b) => a + b, 0) / derivadasIntervalo.length;
+
+      // 4. Derivada en el nodo elegido (ya la tenemos del array)
+      const derivadaNodoElegido = derivadasNodo[idx];
+      
+      // --- FIN DE LÓGICA INTEGRADA ---
+
+      
+      mostrarResultado(`
+        <strong>Resultados Generales:</strong>
+        <br>
+        ➤ <strong>Derivadas por intervalo:</strong><br>
+        [${derivadasIntervalo.map(v => v.toFixed(4)).join(", ")}]
+        <br><br>
+        ➤ <strong>Derivadas instantáneas (nodos):</strong><br>
+        [${derivadasNodo.map(v => v.toFixed(4)).join(", ")}]
+        <br><br>
+        ➤ <strong>Promedio de derivadas (intervalo):</strong><br>
+        ${promedio.toFixed(4)}
+        <br><br>
+        <strong>Primera Derivada en x=${xNodo}:</strong><br>
+        ${derivadaNodoElegido.toFixed(6)}
+      `);
+    }
+
+    /**
+     * Calcula la segunda derivada en el nodo seleccionado.
+     */
+    function calcularSegundaDerivada() {
+      const puntos = getPuntosFromTabla(); // Cambiado
+      if (!puntos) return;
+
+      const nodoInfo = getNodo(puntos);
+      if (!nodoInfo) return;
+
+      const { xNodo, idx } = nodoInfo;
+      const n = puntos.length;
+
+      // No se puede calcular en los extremos con este método
+      if (idx === 0 || idx === n - 1) {
+        mostrarResultado("<strong>Aviso:</strong> La segunda derivada no se puede calcular en los nodos extremos con este método.", true);
+        return;
+      }
+
+      // Fórmula de 3 puntos para datos no espaciados uniformemente
+      const [xi_m1, yi_m1] = puntos[idx - 1];
+      const [xi, yi] = puntos[idx];
+      const [xi_p1, yi_p1] = puntos[idx + 1];
+
+      const h1 = xi - xi_m1;
+      const h2 = xi_p1 - xi;
+      const h_sum = h1 + h2;
+
+      const term1 = yi_m1 / (h1 * h_sum);
+      const term2 = yi / (h1 * h2);
+      const term3 = yi_p1 / (h2 * h_sum);
+      
+      const derivada = 2 * (term1 - term2 + term3);
+
+      mostrarResultado(`<strong>Segunda Derivada en x=${xNodo}:</strong><br>${derivada.toFixed(6)}`);
+    }
+
+    // --- Lógica para la tabla dinámica ---
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const tablaPuntos = document.getElementById("tabla-puntos");
+        const agregarPuntoBtn = document.getElementById("agregar-punto");
+
+        function crearFila(x = '', y = '') {
+            const filaDiv = document.createElement('div');
+            filaDiv.className = 'punto-fila';
+            
+            const inputX = document.createElement('input');
+            inputX.type = 'number';
+            inputX.className = 'punto-x';
+            inputX.placeholder = 'x';
+            inputX.value = x;
+            
+            const inputY = document.createElement('input');
+            inputY.type = 'number';
+            inputY.className = 'punto-y';
+            inputY.placeholder = 'y';
+            inputY.value = y;
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remover-punto';
+            removeBtn.title = 'Eliminar fila';
+            removeBtn.innerHTML = '×';
+            
+            filaDiv.appendChild(inputX);
+            filaDiv.appendChild(inputY);
+            filaDiv.appendChild(removeBtn);
+            
+            tablaPuntos.appendChild(filaDiv);
+        }
+
+        // Botón para agregar nueva fila
+        agregarPuntoBtn.addEventListener("click", () => {
+            crearFila();
+        });
+
+        // Event delegation para eliminar filas
+        tablaPuntos.addEventListener("click", (e) => {
+            if (e.target.classList.contains("remover-punto")) {
+                e.target.parentElement.remove();
+            }
+        });
+
+        // Crear 3 filas iniciales con datos de ejemplo
+        crearFila(0, 0);
+        crearFila(1, 2);
+        crearFila(2, 8);
+    });
+
+  </script>
+</body>
+</html>
