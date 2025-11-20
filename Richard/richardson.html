@@ -64,8 +64,8 @@
       color: #334155;
     }
 
-    /* Inputs de número */
-    input[type="number"] {
+    /* Inputs (Ahora aplica tanto a number como a text) */
+    input[type="number"], input[type="text"] {
       width: 100%;
       padding: 12px 14px;
       margin-top: 8px;
@@ -85,22 +85,33 @@
       -webkit-appearance: none;
       margin: 0;
     }
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
 
-    input[type="number"]:focus {
+    /* Efecto de foco normal */
+    input:focus {
       outline: none;
       border-color: #1d4ed8;
       background: #ffffff;
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
+
+    /* Clase para indicar qué campo está recibiendo datos de la botonera */
+    .active-field {
+      border-color: #2563eb !important;
+      background-color: #fff !important;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25) !important;
+    }
     
-    /* --- Estilos para la botonera y display --- */
+    /* --- Estilos para el display de función (Sobrescribe genéricos) --- */
     #funcion-display {
-      background: #eef2ff; /* Un fondo ligeramente diferente */
+      background: #eef2ff; 
       color: #1d2b64;
       font-weight: 600;
       font-size: 16px;
       padding: 14px;
-      margin-top: 8px; /* Espacio desde el label */
+      margin-top: 8px; 
       margin-bottom: 20px;
       border: 1.5px solid #c7d2fe;
       border-radius: 10px;
@@ -108,10 +119,16 @@
       box-sizing: border-box;
       font-family: "Poppins", sans-serif;
     }
+    /* Foco específico para el display */
+    #funcion-display.active-field {
+       border-color: #818cf8 !important;
+       box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3) !important;
+    }
 
+    /* Botonera */
     #keypad {
       display: grid;
-      grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+      grid-template-columns: repeat(4, 1fr); 
       gap: 10px;
       margin-bottom: 20px;
     }
@@ -136,30 +153,28 @@
     }
     
     #keypad button.key-func {
-      background-color: #f0fdf4; /* Verde */
+      background-color: #f0fdf4; 
       color: #15803d;
       border-color: #bbf7d0;
     }
     
     #keypad button.key-op {
-      background-color: #eef2ff; /* Azul */
+      background-color: #eef2ff; 
       color: #312e81;
       border-color: #c7d2fe;
       font-size: 18px;
     }
     
     #keypad button.key-del {
-      background-color: #fff1f2; /* Rojo */
+      background-color: #fff1f2; 
       color: #be123c;
       border-color: #fecdd3;
     }
     
     #keypad button.key-span-2 {
-      grid-column: span 2; /* Para C y DEL */
+      grid-column: span 2; 
     }
-    /* --- Fin estilos botonera --- */
 
-    
     /* Botón principal */
     .button-principal {
       width: 100%;
@@ -181,7 +196,7 @@
 
     /* Div de resultados */
     #resultado {
-      display: none; /* Oculto por defecto */
+      display: none; 
       margin-top: 25px;
       background: #f1f5ff;
       padding: 18px;
@@ -190,7 +205,7 @@
       font-size: 15px;
       color: #334155;
       border-left: 4px solid #1d4ed8;
-      opacity: 1; /* Quitamos la opacidad 0 */
+      opacity: 1; 
     }
 
     #resultado strong {
@@ -200,7 +215,6 @@
       margin-bottom: 5px;
     }
     
-    /* Estilo de error para el div de resultados */
     #resultado.error {
       background: #fff1f2;
       border-color: #e11d48;
@@ -211,20 +225,13 @@
       color: #c51a4a;
     }
     
-    /* --- CSS para resultados compactos (copiado de la otra calc) --- */
-    #resultado p {
-      margin: 0;
-      padding: 0;
-    }
-    .resultado-item {
-      margin-bottom: 12px; /* Espacio entre ítems */
-    }
-    .resultado-item:last-child {
-      margin-bottom: 0;
-    }
+    /* Estilos para resultados compactos */
+    #resultado p { margin: 0; padding: 0; }
+    .resultado-item { margin-bottom: 12px; }
+    .resultado-item:last-child { margin-bottom: 0; }
     .resultado-item .label {
       font-weight: 600;
-      color: #1d4ed8; /* Título del ítem */
+      color: #1d4ed8; 
       font-size: 15px;
       display: block;
       margin-bottom: 2px;
@@ -232,10 +239,9 @@
     .resultado-item .value {
       font-size: 14px;
       color: #334155;
-      word-wrap: break-word; /* Para listas largas */
+      word-wrap: break-word; 
       white-space: pre-wrap;
     }
-    /* Estilo para el resultado final destacado */
     .resultado-final {
       margin-top: 16px;
       padding-top: 16px;
@@ -250,104 +256,94 @@
        font-weight: 600;
        color: #1d2b64;
     }
-    /* Para el título del error */
     #resultado.error .label {
       color: #c51a4a;
       font-size: 16px;
       font-weight: 700;
     }
-    /* --- FIN CSS --- */
 
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- Botón de volver "←" en la esquina superior izquierda -->
-    <a href="#" onclick="history.back(); return false;" class="volver-top" title="Volver">←</a>
+    <a href="../index.html" class="volver-top" title="Volver">←</a>
 
     <h1>Extrapolación de Richardson</h1>
     
-    <!-- Inputs actualizados para la lógica de f(x) + botonera -->
-    
+    <!-- Al hacer clic aquí, la botonera escribirá en este campo -->
     <label for="funcion-display">Función f(x):</label>
-    <!-- Display no editable para la función -->
-    <input type="text" id="funcion-display" readonly placeholder="Construya la función con los botones...">
+    <input type="text" id="funcion-display" readonly placeholder="Construya la función con los botones..." class="active-field">
 
     <!-- Botonera -->
     <div id="keypad">
-        <!-- Fila 1: Funciones -->
+        <!-- Fila 1 -->
         <button class="key-func" data-action="append" data-value="Math.sin(">sin</button>
         <button class="key-func" data-action="append" data-value="Math.cos(">cos</button>
         <button class="key-func" data-action="append" data-value="Math.tan(">tan</button>
         <button class="key-func" data-action="append" data-value="Math.exp(">exp</button>
         
-        <!-- Fila 2: Logaritmos y Paréntesis -->
+        <!-- Fila 2 -->
         <button class="key-func" data-action="append" data-value="Math.log(">ln</button>
         <button class="key-func" data-action="append" data-value="Math.log10(">log10</button>
         <button data-action="append" data-value="(">(</button>
         <button data-action="append" data-value=")">)</button>
 
-        <!-- Fila 3: 'x', 'e' y Operadores -->
+        <!-- Fila 3 -->
         <button data-action="append" data-value="x">x</button>
         <button data-action="append" data-value="Math.E">e</button>
         <button class="key-op" data-action="append" data-value="**">^</button>
         <button class="key-op" data-action="append" data-value="/">/</button>
         
-        <!-- Fila 4: Operadores y Números -->
+        <!-- Fila 4 -->
         <button data-action="append" data-value="7">7</button>
         <button data-action="append" data-value="8">8</button>
         <button data-action="append" data-value="9">9</button>
         <button class="key-op" data-action="append" data-value="*">*</button>
 
-        <!-- Fila 5: Operadores y Números -->
+        <!-- Fila 5 -->
         <button data-action="append" data-value="4">4</button>
         <button data-action="append" data-value="5">5</button>
         <button data-action="append" data-value="6">6</button>
         <button class="key-op" data-action="append" data-value="-">-</button>
         
-        <!-- Fila 6: Operadores y Números -->
+        <!-- Fila 6 -->
         <button data-action="append" data-value="1">1</button>
         <button data-action="append" data-value="2">2</button>
         <button data-action="append" data-value="3">3</button>
         <button class="key-op" data-action="append" data-value="+">+</button>
         
-        <!-- Fila 7: Control -->
-        <button data-action="append" data-value="0" class="key-span-2">0</button>
+        <!-- Fila 7 -->
+        <button data-action="append" data-value="0">0</button>
+        <button data-action="append" data-value="Math.PI">π</button>
         <button data-action="append" data-value=".">.</button>
         <button class="key-del" data-action="backspace">DEL</button>
         
-        <!-- Fila 8: Control -->
+        <!-- Fila 8 -->
         <button class="key-del key-span-4" data-action="clear">C</button>
     </div>
 
+    <!-- Ahora son inputs de texto para permitir 'Math.PI', etc. -->
     <label for="punto-x">Valor de x:</label>
-    <input type="number" id="punto-x" placeholder="Ej: 0.5" autocomplete="off">
+    <input type="text" id="punto-x" placeholder="Ej: 0.5 o Math.PI/4" autocomplete="off">
 
     <label for="paso-h">Valor de h1:</label>
-    <input type="number" id="paso-h" placeholder="Ej: 0.5" autocomplete="off">
+    <input type="text" id="paso-h" placeholder="Ej: 0.5" autocomplete="off">
 
     <button onclick="calcularRichardson()" class="button-principal">Calcular Extrapolación</button>
 
-    <!-- El resultado se mostrará aquí -->
     <div id="resultado" style="display: none;"></div>
   </div>
 
   <script>
-    /**
-     * Muestra un mensaje en el div de resultados.
-     * @param {string} html - El contenido HTML a mostrar.
-     * @param {boolean} [isError=false] - Si es un mensaje de error.
-     */
     function mostrarResultado(html, isError = false) {
       const resultadoDiv = document.getElementById("resultado");
       resultadoDiv.innerHTML = html;
       resultadoDiv.style.display = 'block';
-      resultadoDiv.style.opacity = 1; // Asegurarse de que sea visible
+      resultadoDiv.style.opacity = 1;
       
       if (isError) {
         resultadoDiv.classList.add("error");
-        // Asegurarse de que el HTML de error también use la nueva estructura
         if (html.startsWith("<strong>")) {
            resultadoDiv.innerHTML = `<div class="resultado-item"><span class="label">${html.replace(/<\/?strong>/g, '')}</span></div>`;
         }
@@ -356,31 +352,28 @@
       }
     }
 
-    /**
-     * Trunca un número a un número específico de decimales y lo formatea.
-     * @param {number} num - El número a truncar.
-     * @param {number} [decimals=9] - El número de decimales a mantener.
-     * @returns {string} - El número truncado y formateado como string.
-     */
     function truncAndFormat(num, decimals = 9) {
       const multiplier = Math.pow(10, decimals);
-      // Math.trunc corta la parte decimal (sin redondear)
       const truncatedNum = Math.trunc(num * multiplier) / multiplier;
-      // .toFixed(decimals) asegura que se muestren los 9 decimales (ej: 0.500000000)
       return truncatedNum.toFixed(decimals);
     }
 
-    /**
-     * Calcula la derivada usando la Extrapolación de Richardson.
-     * (Versión que calcula D(h) y D(h/2) internamente)
-     */
+    // Función para evaluar expresiones matemáticas de forma segura en x y h
+    function evalMath(str) {
+      if (!str || !str.trim()) return NaN;
+      try {
+        // Usamos new Function para que entienda Math.PI, Math.E, 1/3, etc.
+        return new Function('return ' + str)();
+      } catch (e) {
+        return NaN;
+      }
+    }
+
     function calcularRichardson() {
-      // Leer desde los inputs correctos
       const funcionStr = document.getElementById("funcion-display").value;
       const xStr = document.getElementById("punto-x").value;
       const hStr = document.getElementById("paso-h").value;
 
-      // --- 1. Validación de Entradas ---
       if (!funcionStr.trim()) {
         mostrarResultado("<strong>Error:</strong> Por favor, construya una función f(x).", true);
         return;
@@ -394,50 +387,33 @@
         return;
       }
 
-      const x = parseFloat(xStr);
-      const h = parseFloat(hStr);
+      // Usamos la nueva función de evaluación
+      const x = evalMath(xStr);
+      const h = evalMath(hStr);
 
-      if (isNaN(x) || isNaN(h)) {
-        mostrarResultado("<strong>Error:</strong> El punto 'x' y el paso 'h' deben ser números.", true);
+      if (isNaN(x)) {
+        mostrarResultado("<strong>Error:</strong> El valor de 'x' no es válido.", true);
         return;
       }
-      if (h === 0) {
-        mostrarResultado("<strong>Error:</strong> El paso 'h' no puede ser cero.", true);
+      if (isNaN(h) || h === 0) {
+        mostrarResultado("<strong>Error:</strong> El paso 'h' no es válido o es cero.", true);
         return;
       }
 
-      // --- 2. Creación de la Función ---
       let f;
       try {
-        // Usamos new Function para convertir de forma segura el string en una función.
         f = new Function('x', `return ${funcionStr}`);
       } catch (error) {
         mostrarResultado(`<strong>Error de sintaxis en f(x):</strong><br>${error.message}.<br>Revise su función.`, true);
         return;
       }
 
-      // --- 3. Cálculo de las Derivadas ---
       try {
-        // Usamos la fórmula de diferencia central de O(h^2)
-        // D(x, h) = (f(x + h) - f(x - h)) / (2 * h)
-        
-        // Primera aproximación (con h)
         const D_h = (f(x + h) - f(x - h)) / (2 * h);
-        
-        // Segunda aproximación (con h/2)
         const h_2 = h / 2;
         const D_h2 = (f(x + h_2) - f(x - h_2)) / (2 * h_2);
-
-        // --- 4. Extrapolación de Richardson ---
-        // Para un método O(h^2), la fórmula es:
-        // D_mejorado = D_h2 + (D_h2 - D_h) / (2^p - 1)
-        // donde p=2 (orden del método), entonces 2^2 - 1 = 3.
-        // D_mejorado = (4 * D_h2 - D_h) / 3
-        
         const D_mejorado = (4 * D_h2 - D_h) / 3;
 
-        // --- 5. Mostrar Resultados (NUEVO FORMATO) ---
-        // Usamos la nueva función truncAndFormat para mostrar 9 decimales sin redondear
         mostrarResultado(`
           <div class="resultado-item">
             <span class="label">Resultados de Extrapolación:</span>
@@ -457,73 +433,84 @@
         `);
 
       } catch (error) {
-        // Captura errores durante la *evaluación* de f(x) (ej: Math.log(-1))
         mostrarResultado(`<strong>Error de cálculo:</strong><br>${error.message}.<br>Verifique la función y el punto.`, true);
       }
     }
 
-    // --- Lógica para la Botonera ---
+    // --- Lógica para la Botonera y Foco ---
     document.addEventListener("DOMContentLoaded", () => {
-      const display = document.getElementById("funcion-display");
       const keypad = document.getElementById("keypad");
       const resultadoDiv = document.getElementById("resultado");
 
-      // Inputs que, al usarse, ocultan el resultado anterior
-      const inputs = [
+      // Lista de campos que pueden recibir input de la botonera
+      const inputFields = [
+        document.getElementById("funcion-display"),
         document.getElementById("punto-x"),
         document.getElementById("paso-h")
       ];
+      
+      // Variable para rastrear cuál es el input activo (por defecto la función)
+      let currentInput = inputFields[0];
 
       function ocultarResultado() {
         resultadoDiv.style.display = 'none';
         resultadoDiv.classList.remove("error");
       }
 
-      // Ocultar resultado si se edita un input
-      inputs.forEach(input => {
-        input.addEventListener("focus", ocultarResultado);
+      // Configurar listeners para cambiar el input activo
+      inputFields.forEach(input => {
+        input.addEventListener("focus", () => {
+          currentInput = input;
+          ocultarResultado();
+          
+          // Actualizar clase visual
+          inputFields.forEach(i => i.classList.remove('active-field'));
+          input.classList.add('active-field');
+        });
       });
 
-      // Manejador de eventos para la botonera
+      // Manejador de clics de la botonera
       keypad.addEventListener("click", (e) => {
-        // Usar event delegation
         if (e.target.tagName !== "BUTTON") return;
 
-        ocultarResultado(); // Ocultar si se empieza a escribir de nuevo
+        // No ocultamos resultado aquí para permitir ediciones rápidas
+        // ocultarResultado(); 
 
         const action = e.target.dataset.action;
         const value = e.target.dataset.value;
-        const display = document.getElementById("funcion-display"); // Obtener display aquí
+        
+        // Usamos el input que esté activo en ese momento
+        const display = currentInput;
 
         switch (action) {
           case "append":
             const lastChar = display.value.slice(-1);
-            const endsWithConst = display.value.endsWith('Math.E'); // Check for 'e' constant
+            const endsWithConst = display.value.endsWith('Math.E') || display.value.endsWith('Math.PI');
             let charToAppend = value;
 
-            // Lógica para añadir '*' automáticamente
-            
-            // Caso 1: Añadir 'x', 'Math.func', '(', o 'Math.E'
+            // Lógica inteligente para añadir '*' automáticamente
+            // Aplica si añadimos x, funciones, constantes o paréntesis abierto
             if (value === 'x' || value.startsWith('Math.') || value === '(') {
-              // Si el último char es un número, 'x', ')', o si termina en Math.E
               if (lastChar.match(/[0-9x.)]/) || endsWithConst) {
                 charToAppend = ` * ${value}`;
               }
             }
-            
-            // Caso 2: Añadir un número
+            // Aplica si añadimos un número
             else if (value.match(/[0-9]/)) {
-              // Si el último char es 'x', ')' o si termina en Math.E
               if (lastChar.match(/[x)]/) || endsWithConst) {
                 charToAppend = ` * ${value}`;
               }
             }
 
             display.value += charToAppend;
+            // Disparar evento input para actualizar validaciones si las hubiera
+            display.dispatchEvent(new Event('input'));
             break;
+            
           case "clear":
             display.value = "";
             break;
+            
           case "backspace":
             display.value = display.value.slice(0, -1);
             break;
