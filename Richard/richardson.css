@@ -1,0 +1,302 @@
+/* ==========================================================
+   ESTILOS BASE PARA MÉTODO RICHARDON
+   Define la apariencia de la página Richardson
+========================================================== */
+
+/* Fondo, tipografía y alineación general */
+body {
+  background: linear-gradient(to bottom right, #f2f6ff, #e9efff);
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  color: #334155;
+}
+
+/* Contenedor principal de la calculadora */
+.container {
+  position: relative;
+  background: #ffffff;
+  padding: 35px 40px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 50, 0.1);
+  width: 90%;
+  max-width: 480px;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+/* ==========================================================
+   BOTÓN SUPERIOR PARA VOLVER AL MENÚ PRINCIPAL
+========================================================== */
+
+.volver-top {
+  position: absolute;
+  top: 28px;
+  left: 30px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.volver-top:hover {
+  color: #1d2b64;
+}
+
+/* ==========================================================
+   TITULOS E INFORMACIÓN DEL FORMULARIO
+========================================================== */
+
+h1 {
+  color: #1d2b64;
+  font-size: 24px;
+  margin-bottom: 25px;
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 700;
+}
+
+label {
+  font-weight: 600;
+  font-size: 15px;
+  color: #334155;
+}
+
+/* ==========================================================
+   ESTILOS PARA INPUTS (text y number)
+========================================================== */
+
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #1e293b;
+  background-color: #f8fafc;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Quitar flechas internas en inputs type number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Efecto visual cuando un input recibe foco */
+input:focus {
+  outline: none;
+  border-color: #1d4ed8;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Indica qué input está recibiendo datos desde el keypad */
+.active-field {
+  border-color: #2563eb !important;
+  background-color: #fff !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* ==========================================================
+   DISPLAY ESPECIAL PARA MOSTRAR LA FUNCIÓN f(x)
+========================================================== */
+
+#funcion-display {
+  background: #eef2ff;
+  color: #1d2b64;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 14px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  border: 1.5px solid #c7d2fe;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Foco exclusivo del display de la función */
+#funcion-display.active-field {
+  border-color: #818cf8 !important;
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3) !important;
+}
+
+/* ==========================================================
+   BOTONERA (KEYPAD) PARA CONSTRUIR LA FUNCIÓN
+========================================================== */
+
+#keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Botón base */
+#keypad button {
+  padding: 16px 10px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  background-color: #f8fafc;
+  color: #334155;
+  border: 1.5px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#keypad button:hover {
+  background-color: #f1f5f9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Botones de funciones matemáticas (sin, cos, tan...) */
+#keypad button.key-func {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+/* Botones de operadores (+ - * / ^) */
+#keypad button.key-op {
+  background-color: #eef2ff;
+  color: #312e81;
+  border-color: #c7d2fe;
+  font-size: 18px;
+}
+
+/* Botones de eliminación */
+#keypad button.key-del {
+  background-color: #fff1f2;
+  color: #be123c;
+  border-color: #fecdd3;
+}
+
+/* Botón que ocupa 2 columnas */
+#keypad button.key-span-2 {
+  grid-column: span 2;
+}
+
+/* ==========================================================
+   BOTÓN PRINCIPAL (CALCULAR)
+========================================================== */
+
+.button-principal {
+  width: 100%;
+  background: #1d4ed8;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+.button-principal:hover {
+  background: #2563eb;
+}
+
+/* ==========================================================
+   CUADRO DE RESULTADOS
+========================================================== */
+
+#resultado {
+  display: none;
+  margin-top: 25px;
+  background: #f1f5ff;
+  padding: 18px;
+  border-radius: 12px;
+  text-align: left;
+  font-size: 15px;
+  color: #334155;
+  border-left: 4px solid #1d4ed8;
+}
+
+/* Estilos cuando ocurre un error */
+#resultado.error {
+  background: #fff1f2;
+  border-color: #e11d48;
+  color: #9f1239;
+}
+
+/* Título dentro del resultado */
+#resultado strong {
+  color: #1d4ed8;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Ajustes cuando hay error */
+#resultado.error strong {
+  color: #c51a4a;
+}
+
+/* ==========================================================
+   ESTILO COMPACTO PARA LAS LÍNEAS DE RESULTADOS
+========================================================== */
+
+#resultado p {
+  margin: 0;
+}
+
+.resultado-item {
+  margin-bottom: 12px;
+}
+
+.resultado-item .label {
+  font-weight: 600;
+  color: #1d4ed8;
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+
+.resultado-item .value {
+  font-size: 14px;
+  color: #334155;
+  word-wrap: break-word;
+}
+
+/* Línea final más destacada */
+.resultado-final {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed #c7d2fe;
+}
+
+.resultado-final .label {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.resultado-final .value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d2b64;
+}
+
+/* Ajustes cuando hay error en resultado final */
+#resultado.error .label {
+  color: #c51a4a;
+  font-size: 16px;
+  font-weight: 700;
+}

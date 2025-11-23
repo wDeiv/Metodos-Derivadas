@@ -2,37 +2,99 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+
+  <!--
+    La meta "viewport" permite que la página sea responsive.
+    Ajusta el zoom y el ancho para pantallas móviles y tablets.
+  -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Métodos Numéricos</title>
+
+  <!-- Enlace al archivo CSS donde están los estilos de la vista principal-->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Importación de íconos FontAwesome (si se usan en el futuro) -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
+
+  <!--
+    CONTENEDOR PRINCIPAL
+    Envuelve todo el contenido del menú central.
+  -->
   <div class="container">
+
+    <!-- Título general del menú -->
     <h1>Métodos Numéricos</h1>
+
+    <!-- Subtítulo explicativo debajo del título principal -->
     <p class="subtitle">Selecciona el método que deseas utilizar</p>
 
+    <!--
+      CONTENEDOR DE TARJETAS (CARDS)
+      Agrupa todas las opciones disponibles como si fueran módulos.
+    -->
     <div class="cards">
-  <div class="card" id="derivadas">
-    <img src="galaxy.png" alt="Espacio">
-    <h2>Derivadas de Datos<br>Irregularmente Espaciados</h2>
-    <p>(Método de Interpolación)</p>
-    <button onclick="location.href='Interpol/interpolacion.html'">Explorar</button>
-  </div>
 
-  <div class="card" id="richardson">
-    <img src="https://cdn-icons-png.flaticon.com/512/751/751463.png" alt="Lupa Richardson">
-    <h2>Extrapolación de Richardson</h2>
-    <p>(Método de Aceleración)</p>
-    <button onclick="location.href='Richard/richardson.html'">Explorar</button>
+      <!-- ============================================================
+           TARJETA 1: Derivadas con Datos Irregularmente Espaciados
+           Lleva a la herramienta de interpolación para derivadas.
+      ============================================================ -->
+      <div class="card" id="derivadas">
 
-  </div>
-</div>
+        <!-- Imagen decorativa dentro de la tarjeta -->
+        <img src="galaxy.png" alt="Espacio">
 
+        <!-- Título de la tarjeta -->
+        <h2>Derivadas de Datos<br>Irregularmente Espaciados</h2>
 
+        <!-- Subtítulo o descripción del método -->
+        <p>(Método de Interpolación)</p>
+
+        <!--
+          Botón que redirige a la herramienta.
+          Usa "onclick" para cambiar de página.
+        -->
+        <button onclick="location.href='Interpol/interpolacion.html'">
+          Explorar
+        </button>
+      </div>
+
+      <!-- ============================================================
+           TARJETA 2: Extrapolación de Richardson
+           Lleva a la herramienta dentro de la carpeta "Richard".
+      ============================================================ -->
+      <div class="card" id="richardson">
+
+        <!-- Imagen simbólica asociada al método -->
+        <img src="https://cdn-icons-png.flaticon.com/512/751/751463.png" alt="Lupa Richardson">
+
+        <!-- Título de la tarjeta -->
+        <h2>Extrapolación de Richardson</h2>
+
+        <!-- Subtítulo informativo -->
+        <p>(Método de Aceleración)</p>
+
+        <!-- Botón que redirige al archivo HTML del método -->
+        <button onclick="location.href='Richard/richardson.html'">
+          Explorar
+        </button>
+      </div>
+
+    </div> <!-- Fin de .cards -->
+
+    <!--
+      CONTENEDOR DINÁMICO (Opcional)
+      Aquí pueden mostrarse mensajes generados por script.js
+    -->
     <div id="content" class="content"></div>
-  </div>
 
+  </div> <!-- Fin de .container -->
+
+  <!-- Importación del archivo JavaScript principal del menú -->
   <script src="script.js"></script>
+
 </body>
 </html>

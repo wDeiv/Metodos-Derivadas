@@ -1,0 +1,278 @@
+/* ============================================================
+   ESTILOS BASE DEL DISEÑO PARA MÉTODO DE INTERPOLACIÓN
+   Fondo, tipografía y comportamiento general del layout
+============================================================ */
+body {
+  background: linear-gradient(to bottom right, #f2f6ff, #e9efff); /* Fondo suave azul */
+  font-family: "Poppins", sans-serif; /* Fuente moderna y legible */
+  display: flex;                       /* Centra el contenido en pantalla */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;                   /* Altura completa */
+  margin: 0;
+  color: #334155;                      /* Gris azulado para texto */
+}
+
+/* Contenedor principal que envuelve toda la herramienta */
+.container {
+  position: relative;                  /* Permite ubicar el botón “volver” */
+  background: #ffffff;
+  padding: 35px 40px;
+  border-radius: 18px;                 /* Bordes suaves */
+  box-shadow: 0 10px 30px rgba(0, 0, 50, 0.1); /* Sombra suave */
+  width: 90%;
+  max-width: 480px;                    /* Ancho ideal */
+  text-align: left;
+  transition: all 0.3s ease;           /* Animación suave */
+}
+
+/* ================================================================================
+   BOTÓN “VOLVER” para la vista principal— flecha en la esquina superior izquierda
+================================================================================= */
+.volver-top {
+  position: absolute;
+  top: 28px;
+  left: 30px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  line-height: 1;
+}
+.volver-top:hover {
+  color: #1d2b64;                      /* Color más intenso al pasar el mouse */
+}
+
+/* ============================================================
+   TITULAR PRINCIPAL
+============================================================ */
+h1 {
+  color: #1d2b64;
+  font-size: 24px;
+  margin-bottom: 25px;
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Etiquetas (textos de entrada) */
+label {
+  font-weight: 600;
+  font-size: 15px;
+  color: #334155;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* ============================================================
+   TABLA DINÁMICA DE PUNTOS (x,y)
+============================================================ */
+
+/* Contenedor general */
+#tabla-puntos-container {
+  margin-bottom: 20px;
+}
+
+/* Contenedor con scroll para los puntos */
+#tabla-puntos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  max-height: 200px;                   /* Máximo alto: aparece scroll */
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Cada fila de punto (x,y) */
+.punto-fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Inputs de x e y */
+.punto-fila input[type="number"] {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  background-color: #f8fafc;
+  color: #1e293b;
+  transition: 0.3s ease;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Efecto de focus */
+.punto-fila input[type="number"]:focus {
+  border-color: #1d4ed8;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Eliminar flechas del input number */
+.punto-fila input[type="number"]::-webkit-inner-spin-button,
+.punto-fila input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+.punto-fila input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ============================================================
+   BOTONES + y × (Agregar / Eliminar puntos)
+============================================================ */
+
+/* Botón de eliminar punto */
+.remover-punto {
+  width: 38px;
+  height: 38px;
+  background: #f1f5f9;
+  color: #64748b;
+  border-radius: 10px;
+  border: none;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.remover-punto:hover {
+  background: #e11d48;
+  color: #fff;
+}
+
+/* Botón para agregar punto */
+.button-add {
+  width: 100%;
+  background: #e0e7ff;
+  color: #1d4ed8;
+  border: 1.5px dashed #a5b4fc;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.button-add:hover {
+  background: #c7d2fe;
+  border-color: #818cf8;
+}
+
+/* ============================================================
+   INPUT DEL NODO
+============================================================ */
+input[type="text"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  background: #f8fafc;
+  font-size: 15px;
+  transition: 0.3s ease;
+}
+input[type="text"]:focus {
+  border-color: #1d4ed8;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ============================================================
+   BOTONERA: Primera y Segunda Derivada
+============================================================ */
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.button-group button {
+  flex: 1;
+  background: #1d4ed8;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.button-group button:hover {
+  background: #2563eb;
+}
+
+/* Botón gris para segunda derivada */
+.button-group button.secondary {
+  background: #64748b;
+}
+.button-group button.secondary:hover {
+  background: #475569;
+}
+
+/* ============================================================
+   RESULTADOS (Bloque final donde se muestran cálculos)
+============================================================ */
+#resultado {
+  display: none;
+  margin-top: 25px;
+  background: #f1f5ff;
+  padding: 18px;
+  border-radius: 12px;
+  border-left: 4px solid #1d4ed8;
+  font-size: 15px;
+  overflow-x: auto;
+}
+
+/* Resultados compactos */
+#resultado p {
+  margin: 0;
+  padding: 0;
+}
+
+.resultado-item {
+  margin-bottom: 12px;
+}
+
+.resultado-item .label {
+  font-weight: 600;
+  color: #1d4ed8;
+}
+
+.resultado-item .value {
+  font-size: 14px;
+  color: #334155;
+  white-space: pre-wrap;
+}
+
+/* Resultado destacado */
+.resultado-final {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed #c7d2fe;
+}
+
+.resultado-final .label {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.resultado-final .value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d2b64;
+}
+
+/* Estilo especial si hay error */
+#resultado.error {
+  background: #fff1f2;
+  border-color: #e11d48;
+  color: #9f1239;
+}
+
+#resultado.error .label {
+  color: #c51a4a;
+  font-size: 16px;
+}

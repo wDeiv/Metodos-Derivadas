@@ -1,19 +1,27 @@
-/* Estilo general para TODAS las páginas */
+/* ============================================
+   ESTILOS GENERALES PARA LA VISTA PRINCIPAL
+   ============================================ */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #e2ecff, #ffffff);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente base */
+  background: linear-gradient(135deg, #e2ecff, #ffffff); /* Fondo con degradado suave */
   margin: 0;
   padding: 20px;
   color: #333;
 
+  /* Centramos vertical y horizontalmente el contenido */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+
+  min-height: 100vh; /* Ocupa toda la pantalla */
   box-sizing: border-box;
 }
 
+/* 
+   Variación del <body> usada para páginas de MENÚ.
+   Cambia el comportamiento del diseño para alinear contenido horizontalmente. 
+*/
 body.menu-body {
   display: flex;
   flex-direction: row;
@@ -24,6 +32,7 @@ body.menu-body {
   min-height: auto;
 }
 
+/* Contenedor principal del contenido */
 .container {
   text-align: center;
   width: 90%;
@@ -31,26 +40,33 @@ body.menu-body {
   margin: 0 auto;
 }
 
+/* Título principal */
 h1 {
   color: #1e3a8a;
   margin-bottom: 5px;
   font-size: 2.2em;
 }
 
+/* Subtítulo */
 .subtitle {
   color: #374151;
   font-size: 1em;
   margin-bottom: 30px;
 }
 
-/* --- Estilos del Menú (index.html) --- */
+/* ============================================
+   ESTILOS DEL MENÚ PRINCIPAL (index.html)
+   ============================================ */
+
+/* Contenedor de las tarjetas */
 .cards {
   display: flex;
   justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
+  gap: 30px;        /* Espacio entre cards */
+  flex-wrap: wrap; /* Permite que bajen si no caben */
 }
 
+/* Estilo base de cada tarjeta */
 .card {
   background: #ffffff;
   border-radius: 15px;
@@ -58,46 +74,57 @@ h1 {
   width: 300px;
   padding: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
+
+  /* Estructura interna vertical */
   display: flex;
   flex-direction: column;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
 
+/* Efecto hover al pasar el ratón */
 .card:hover {
   transform: translateY(-10px);
   box-shadow: 0 8px 18px rgba(0,0,0,0.15);
 }
 
+/* Imagen dentro de la tarjeta */
 .card img {
   width: 80px;
   height: 80px;
   margin-bottom: 15px;
-  /* --- [CAMBIOS AQUÍ] --- */
-  display: block; /* La imagen se comporta como un bloque */
-  margin-left: auto; /* Margen automático a la izquierda */
-  margin-right: auto; /* Margen automático a la derecha (juntos centran el bloque) */
+
+  /* Centrado horizontal de la imagen */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+/* Título dentro de la card */
 .card h2 {
   color: #1e3a8a;
   font-size: 1.3em;
   margin-bottom: 5px;
 }
 
+/* Descripción pequeña de la card */
 .card p {
   color: #6b7280;
   font-size: 0.9em;
   margin-bottom: 15px;
 }
 
+/* Botón dentro de la card */
 .card button {
   width: 100%;
 }
-/* --- Fin de Estilos del Menú --- */
+/* ---------- Fin estilos del menú ---------- */
 
 
-/* --- Estilos para Páginas de Métodos --- */
+/* ============================================
+   ESTILOS PARA PÁGINAS DE MÉTODOS
+   ============================================ */
+
+/* Estilo general de botones */
 button {
   background-color: #1e3a8a;
   color: #fff;
@@ -110,10 +137,12 @@ button {
   width: 100%;
 }
 
+/* Hover de botones */
 button:hover {
   background-color: #334ac0;
 }
 
+/* Botón "volver" */
 button.volver {
   background-color: #6b7280;
   margin-top: 20px;
@@ -122,17 +151,21 @@ button.volver:hover {
   background-color: #4a5568;
 }
 
+/* Formulario general */
 .formulario {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr; /* Una sola columna */
   gap: 15px;
   margin-bottom: 20px;
   text-align: left;
 }
+
 .formulario label {
   font-weight: bold;
   color: #1e3a8a;
 }
+
+/* Inputs y textarea */
 input[type="number"],
 textarea {
   width: 100%;
@@ -143,10 +176,12 @@ textarea {
   font-size: 1em;
 }
 
+/* Contenedor general del contenido dinámico */
 .content {
   margin-top: 25px;
 }
 
+/* Resultado final */
 #resultado {
   margin-top: 20px;
   padding: 15px;
@@ -157,11 +192,13 @@ textarea {
   transition: all 0.3s ease-in-out;
 }
 
+/* Efecto hover del resultado */
 #resultado:hover {
   transform: scale(1.02);
   background: rgba(255,255,255,0.15);
 }
 
+/* Sección de pasos */
 .paso {
   margin-top: 15px;
   padding: 15px;
@@ -174,30 +211,36 @@ textarea {
   text-align: left;
 }
 
+/* Título de cada paso */
 .paso h3 {
   color: #6dcff6;
   margin-bottom: 5px;
 }
 
+/* Lista de pasos */
 .paso ul {
   margin-left: 20px;
   list-style-type: square;
 }
 
+/* Estilo especial para el paso final */
 .paso.final {
   background: rgba(109,207,246,0.15);
   border-left-color: #00e676;
 }
 
+/* Animación de entrada */
 @keyframes fadeIn {
   from {opacity: 0; transform: translateY(10px);}
-  to {opacity: 1; transform: translateY(0);}
+  to   {opacity: 1; transform: translateY(0);}
 }
 
+/* Grupo form-control */
 .form-group {
   margin-bottom: 15px;
   text-align: left;
 }
+
 .form-group label {
   display: block;
   margin-bottom: 5px;
@@ -205,6 +248,7 @@ textarea {
   color: #1e3a8a;
 }
 
+/* Contenedor principal de las páginas de interpolación */
 .interpol-container {
   max-width: 600px;
   margin: 0 auto;

@@ -3,521 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Título de la página -->
   <title>Extrapolación de Richardson</title>
-  <!-- Importamos la fuente Poppins -->
+
+  <!-- Importamos la fuente Poppins para el diseño general -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    /* Estilo base */
-    body {
-      background: linear-gradient(to bottom right, #f2f6ff, #e9efff);
-      font-family: "Poppins", sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      color: #334155;
-    }
 
-    .container {
-      position: relative;
-      background: #ffffff;
-      padding: 35px 40px;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 50, 0.1);
-      width: 90%;
-      max-width: 480px;
-      text-align: left;
-      transition: all 0.3s ease;
-    }
-
-    /* Botón de volver */
-    .volver-top {
-      position: absolute;
-      top: 28px;
-      left: 30px;
-      font-size: 24px;
-      font-weight: 600;
-      color: #94a3b8;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      line-height: 1;
-    }
-
-    .volver-top:hover {
-      color: #1d2b64;
-    }
-
-    h1 {
-      color: #1d2b64;
-      font-size: 24px;
-      margin-bottom: 25px;
-      margin-top: 15px;
-      text-align: center;
-      font-weight: 700;
-    }
-
-    label {
-      font-weight: 600;
-      font-size: 15px;
-      color: #334155;
-    }
-
-    /* Inputs (Ahora aplica tanto a number como a text) */
-    input[type="number"], input[type="text"] {
-      width: 100%;
-      padding: 12px 14px;
-      margin-top: 8px;
-      margin-bottom: 20px;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 10px;
-      font-size: 15px;
-      color: #1e293b;
-      background-color: #f8fafc;
-      transition: all 0.3s ease;
-      box-sizing: border-box; 
-      font-family: "Poppins", sans-serif;
-    }
-
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-    input[type="number"] {
-      -moz-appearance: textfield;
-    }
-
-    /* Efecto de foco normal */
-    input:focus {
-      outline: none;
-      border-color: #1d4ed8;
-      background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-    }
-
-    /* Clase para indicar qué campo está recibiendo datos de la botonera */
-    .active-field {
-      border-color: #2563eb !important;
-      background-color: #fff !important;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25) !important;
-    }
-    
-    /* --- Estilos para el display de función (Sobrescribe genéricos) --- */
-    #funcion-display {
-      background: #eef2ff; 
-      color: #1d2b64;
-      font-weight: 600;
-      font-size: 16px;
-      padding: 14px;
-      margin-top: 8px; 
-      margin-bottom: 20px;
-      border: 1.5px solid #c7d2fe;
-      border-radius: 10px;
-      width: 100%;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-    /* Foco específico para el display */
-    #funcion-display.active-field {
-       border-color: #818cf8 !important;
-       box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3) !important;
-    }
-
-    /* Botonera */
-    #keypad {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr); 
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    #keypad button {
-      padding: 16px 10px;
-      font-size: 15px;
-      font-weight: 600;
-      border: none;
-      border-radius: 10px;
-      background-color: #f8fafc;
-      color: #334155;
-      border: 1.5px solid #e2e8f0;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    #keypad button:hover {
-      background-color: #f1f5f9;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
-    
-    #keypad button.key-func {
-      background-color: #f0fdf4; 
-      color: #15803d;
-      border-color: #bbf7d0;
-    }
-    
-    #keypad button.key-op {
-      background-color: #eef2ff; 
-      color: #312e81;
-      border-color: #c7d2fe;
-      font-size: 18px;
-    }
-    
-    #keypad button.key-del {
-      background-color: #fff1f2; 
-      color: #be123c;
-      border-color: #fecdd3;
-    }
-    
-    #keypad button.key-span-2 {
-      grid-column: span 2; 
-    }
-
-    /* Botón principal */
-    .button-principal {
-      width: 100%;
-      background: #1d4ed8;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 15px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      margin-top: 10px;
-    }
-
-    .button-principal:hover {
-      background: #2563eb;
-    }
-
-    /* Div de resultados */
-    #resultado {
-      display: none; 
-      margin-top: 25px;
-      background: #f1f5ff;
-      padding: 18px;
-      border-radius: 12px;
-      text-align: left;
-      font-size: 15px;
-      color: #334155;
-      border-left: 4px solid #1d4ed8;
-      opacity: 1; 
-    }
-
-    #resultado strong {
-      color: #1d4ed8;
-      font-size: 16px;
-      display: block;
-      margin-bottom: 5px;
-    }
-    
-    #resultado.error {
-      background: #fff1f2;
-      border-color: #e11d48;
-      color: #9f1239;
-    }
-    
-    #resultado.error strong {
-      color: #c51a4a;
-    }
-    
-    /* Estilos para resultados compactos */
-    #resultado p { margin: 0; padding: 0; }
-    .resultado-item { margin-bottom: 12px; }
-    .resultado-item:last-child { margin-bottom: 0; }
-    .resultado-item .label {
-      font-weight: 600;
-      color: #1d4ed8; 
-      font-size: 15px;
-      display: block;
-      margin-bottom: 2px;
-    }
-    .resultado-item .value {
-      font-size: 14px;
-      color: #334155;
-      word-wrap: break-word; 
-      white-space: pre-wrap;
-    }
-    .resultado-final {
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px dashed #c7d2fe;
-    }
-    .resultado-final .label {
-       font-size: 16px;
-       font-weight: 700;
-    }
-    .resultado-final .value {
-       font-size: 16px;
-       font-weight: 600;
-       color: #1d2b64;
-    }
-    #resultado.error .label {
-      color: #c51a4a;
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-  </style>
+  <!-- Archivo CSS principal con los estilos -->
+  <link rel="stylesheet" href="richardson.css">
 </head>
+
 <body>
 
+  <!-- Contenedor principal que envuelve toda la calculadora -->
   <div class="container">
+
+    <!-- Botón para regresar al menú principal -->
     <a href="../index.html" class="volver-top" title="Volver">←</a>
 
+    <!-- Titulo principal de la herramienta -->
     <h1>Extrapolación de Richardson</h1>
-    
-    <!-- Al hacer clic aquí, la botonera escribirá en este campo -->
-    <label for="funcion-display">Función f(x):</label>
-    <input type="text" id="funcion-display" readonly placeholder="Construya la función con los botones..." class="active-field">
 
-    <!-- Botonera -->
+    <!-- ============================================================
+         INPUT DE RICHARDSON: Construcción de la función f(x)
+         Aquí se mostrará lo que el usuario construye con la botonera
+    ============================================================ -->
+    <label for="funcion-display">Función f(x):</label>
+
+    <!-- Campo donde se escribe automáticamente la función -->
+    <input 
+      type="text" 
+      id="funcion-display" 
+      readonly
+      placeholder="Construya la función con los botones..." 
+      class="active-field"
+    >
+
+    <!-- ============================================================
+         BOTONERA (KEYPAD)
+         Permite construir la función sin necesidad de escribir manualmente
+         Incluye funciones matemáticas, números y operadores
+    ============================================================ -->
     <div id="keypad">
-        <!-- Fila 1 -->
+
+        <!-- Fila 1: Funciones trigonométricas y exponencial -->
         <button class="key-func" data-action="append" data-value="Math.sin(">sin</button>
         <button class="key-func" data-action="append" data-value="Math.cos(">cos</button>
         <button class="key-func" data-action="append" data-value="Math.tan(">tan</button>
         <button class="key-func" data-action="append" data-value="Math.exp(">exp</button>
-        
-        <!-- Fila 2 -->
+
+        <!-- Fila 2: Logaritmos y paréntesis -->
         <button class="key-func" data-action="append" data-value="Math.log(">ln</button>
         <button class="key-func" data-action="append" data-value="Math.log10(">log10</button>
         <button data-action="append" data-value="(">(</button>
         <button data-action="append" data-value=")">)</button>
 
-        <!-- Fila 3 -->
+        <!-- Fila 3: Variables y operadores básicos -->
         <button data-action="append" data-value="x">x</button>
         <button data-action="append" data-value="Math.E">e</button>
         <button class="key-op" data-action="append" data-value="**">^</button>
         <button class="key-op" data-action="append" data-value="/">/</button>
-        
-        <!-- Fila 4 -->
+
+        <!-- Fila 4: Números y multiplicación -->
         <button data-action="append" data-value="7">7</button>
         <button data-action="append" data-value="8">8</button>
         <button data-action="append" data-value="9">9</button>
         <button class="key-op" data-action="append" data-value="*">*</button>
 
-        <!-- Fila 5 -->
+        <!-- Fila 5: Números + resta -->
         <button data-action="append" data-value="4">4</button>
         <button data-action="append" data-value="5">5</button>
         <button data-action="append" data-value="6">6</button>
         <button class="key-op" data-action="append" data-value="-">-</button>
-        
-        <!-- Fila 6 -->
+
+        <!-- Fila 6: Números + suma -->
         <button data-action="append" data-value="1">1</button>
         <button data-action="append" data-value="2">2</button>
         <button data-action="append" data-value="3">3</button>
         <button class="key-op" data-action="append" data-value="+">+</button>
-        
-        <!-- Fila 7 -->
+
+        <!-- Fila 7: 0, π, punto decimal y borrar un carácter -->
         <button data-action="append" data-value="0">0</button>
         <button data-action="append" data-value="Math.PI">π</button>
         <button data-action="append" data-value=".">.</button>
         <button class="key-del" data-action="backspace">DEL</button>
-        
-        <!-- Fila 8 -->
+
+        <!-- Fila 8: Borrar todo -->
         <button class="key-del key-span-4" data-action="clear">C</button>
     </div>
 
-    <!-- Ahora son inputs de texto para permitir 'Math.PI', etc. -->
+    <!-- ============================================================
+         INPUTS PARA VALORES NUMÉRICOS
+         Se permite ingresar expresiones como 0.5, Math.PI/4, etc.
+    ============================================================ -->
+
+    <!-- Valor de x donde se evaluará la derivada -->
     <label for="punto-x">Valor de x:</label>
-    <input type="text" id="punto-x" placeholder="Ej: 0.5 o Math.PI/4" autocomplete="off">
+    <input 
+      type="text" 
+      id="punto-x" 
+      placeholder="Ej: 0.5 o Math.PI/4" 
+      autocomplete="off"
+    >
 
+    <!-- Valor del paso h -->
     <label for="paso-h">Valor de h1:</label>
-    <input type="text" id="paso-h" placeholder="Ej: 0.5" autocomplete="off">
+    <input 
+      type="text" 
+      id="paso-h" 
+      placeholder="Ej: 0.5" 
+      autocomplete="off"
+    >
 
-    <button onclick="calcularRichardson()" class="button-principal">Calcular Extrapolación</button>
+    <!-- Botón que ejecuta todo el cálculo -->
+    <button onclick="calcularRichardson()" class="button-principal">
+      Calcular Extrapolación
+    </button>
 
+    <!-- Contenedor donde aparecerán los resultados -->
     <div id="resultado" style="display: none;"></div>
+
+    <!-- Archivo JavaScript con toda la lógica -->
+    <script src="richardson.js"></script>
   </div>
 
-  <script>
-    function mostrarResultado(html, isError = false) {
-      const resultadoDiv = document.getElementById("resultado");
-      resultadoDiv.innerHTML = html;
-      resultadoDiv.style.display = 'block';
-      resultadoDiv.style.opacity = 1;
-      
-      if (isError) {
-        resultadoDiv.classList.add("error");
-        if (html.startsWith("<strong>")) {
-           resultadoDiv.innerHTML = `<div class="resultado-item"><span class="label">${html.replace(/<\/?strong>/g, '')}</span></div>`;
-        }
-      } else {
-        resultadoDiv.classList.remove("error");
-      }
-    }
-
-    function truncAndFormat(num, decimals = 9) {
-      const multiplier = Math.pow(10, decimals);
-      const truncatedNum = Math.trunc(num * multiplier) / multiplier;
-      return truncatedNum.toFixed(decimals);
-    }
-
-    // Función para evaluar expresiones matemáticas de forma segura en x y h
-    function evalMath(str) {
-      if (!str || !str.trim()) return NaN;
-      try {
-        // Usamos new Function para que entienda Math.PI, Math.E, 1/3, etc.
-        return new Function('return ' + str)();
-      } catch (e) {
-        return NaN;
-      }
-    }
-
-    function calcularRichardson() {
-      const funcionStr = document.getElementById("funcion-display").value;
-      const xStr = document.getElementById("punto-x").value;
-      const hStr = document.getElementById("paso-h").value;
-
-      if (!funcionStr.trim()) {
-        mostrarResultado("<strong>Error:</strong> Por favor, construya una función f(x).", true);
-        return;
-      }
-      if (!xStr.trim()) {
-        mostrarResultado("<strong>Error:</strong> Por favor, ingrese el punto (x) a evaluar.", true);
-        return;
-      }
-      if (!hStr.trim()) {
-        mostrarResultado("<strong>Error:</strong> Por favor, ingrese el tamaño de paso (h).", true);
-        return;
-      }
-
-      // Usamos la nueva función de evaluación
-      const x = evalMath(xStr);
-      const h = evalMath(hStr);
-
-      if (isNaN(x)) {
-        mostrarResultado("<strong>Error:</strong> El valor de 'x' no es válido.", true);
-        return;
-      }
-      if (isNaN(h) || h === 0) {
-        mostrarResultado("<strong>Error:</strong> El paso 'h' no es válido o es cero.", true);
-        return;
-      }
-
-      let f;
-      try {
-        f = new Function('x', `return ${funcionStr}`);
-      } catch (error) {
-        mostrarResultado(`<strong>Error de sintaxis en f(x):</strong><br>${error.message}.<br>Revise su función.`, true);
-        return;
-      }
-
-      try {
-        const D_h = (f(x + h) - f(x - h)) / (2 * h);
-        const h_2 = h / 2;
-        const D_h2 = (f(x + h_2) - f(x - h_2)) / (2 * h_2);
-        const D_mejorado = (4 * D_h2 - D_h) / 3;
-
-        mostrarResultado(`
-          <div class="resultado-item">
-            <span class="label">Resultados de Extrapolación:</span>
-          </div>
-          <div class="resultado-item">
-            <span class="label">Aprox. D(h=${h}):</span>
-            <span class="value">${truncAndFormat(D_h, 9)}</span>
-          </div>
-          <div class="resultado-item">
-            <span class="label">Aprox. D(h=${h_2}):</span>
-            <span class="value">${truncAndFormat(D_h2, 9)}</span>
-          </div>
-          <div class="resultado-final">
-            <span class="label">Derivada Extrapolada (O(h⁴)) es:</span>
-            <span class="value">${truncAndFormat(D_mejorado, 9)}</span>
-          </div>
-        `);
-
-      } catch (error) {
-        mostrarResultado(`<strong>Error de cálculo:</strong><br>${error.message}.<br>Verifique la función y el punto.`, true);
-      }
-    }
-
-    // --- Lógica para la Botonera y Foco ---
-    document.addEventListener("DOMContentLoaded", () => {
-      const keypad = document.getElementById("keypad");
-      const resultadoDiv = document.getElementById("resultado");
-
-      // Lista de campos que pueden recibir input de la botonera
-      const inputFields = [
-        document.getElementById("funcion-display"),
-        document.getElementById("punto-x"),
-        document.getElementById("paso-h")
-      ];
-      
-      // Variable para rastrear cuál es el input activo (por defecto la función)
-      let currentInput = inputFields[0];
-
-      function ocultarResultado() {
-        resultadoDiv.style.display = 'none';
-        resultadoDiv.classList.remove("error");
-      }
-
-      // Configurar listeners para cambiar el input activo
-      inputFields.forEach(input => {
-        input.addEventListener("focus", () => {
-          currentInput = input;
-          ocultarResultado();
-          
-          // Actualizar clase visual
-          inputFields.forEach(i => i.classList.remove('active-field'));
-          input.classList.add('active-field');
-        });
-      });
-
-      // Manejador de clics de la botonera
-      keypad.addEventListener("click", (e) => {
-        if (e.target.tagName !== "BUTTON") return;
-
-        // No ocultamos resultado aquí para permitir ediciones rápidas
-        // ocultarResultado(); 
-
-        const action = e.target.dataset.action;
-        const value = e.target.dataset.value;
-        
-        // Usamos el input que esté activo en ese momento
-        const display = currentInput;
-
-        switch (action) {
-          case "append":
-            const lastChar = display.value.slice(-1);
-            const endsWithConst = display.value.endsWith('Math.E') || display.value.endsWith('Math.PI');
-            let charToAppend = value;
-
-            // Lógica inteligente para añadir '*' automáticamente
-            // Aplica si añadimos x, funciones, constantes o paréntesis abierto
-            if (value === 'x' || value.startsWith('Math.') || value === '(') {
-              if (lastChar.match(/[0-9x.)]/) || endsWithConst) {
-                charToAppend = ` * ${value}`;
-              }
-            }
-            // Aplica si añadimos un número
-            else if (value.match(/[0-9]/)) {
-              if (lastChar.match(/[x)]/) || endsWithConst) {
-                charToAppend = ` * ${value}`;
-              }
-            }
-
-            display.value += charToAppend;
-            // Disparar evento input para actualizar validaciones si las hubiera
-            display.dispatchEvent(new Event('input'));
-            break;
-            
-          case "clear":
-            display.value = "";
-            break;
-            
-          case "backspace":
-            display.value = display.value.slice(0, -1);
-            break;
-        }
-      });
-    });
-
-  </script>
 </body>
 </html>
